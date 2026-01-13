@@ -8,10 +8,10 @@ import UserTable from "./component/userTable";
 import "./styles.css";
 
 const defaultUsers: Array<IUser> = [
-  { profession: "Tester", name: "Tom Jones", id: 1, age: new Date("2000-01-20") },
-  { profession: "Developer", name: "Bob Smith", id: 2, age: new Date("1989-01-20") }
+  { gender: "male", profession: "Tester", name: "Tom Jones", id: 1, age: new Date("2000-01-20") },
+  { gender: "male", profession: "Developer", name: "Bob Smith", id: 2, age: new Date("1989-01-20") }
 ];
-const initCurrentUser: IUser = { profession: "", name: "", age: new Date("1989-01-20"), id: null as any };
+const initCurrentUser: IUser = { gender: "female", profession: "", name: "", age: new Date("1989-01-20"), id: null as any };
 
 function App() {
   const [users, setUsers] = useState(defaultUsers);

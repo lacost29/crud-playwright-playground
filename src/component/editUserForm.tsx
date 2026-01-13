@@ -20,6 +20,7 @@ export default function EditUserForm({ user, onUpdateUser, setEdit }: IProps) {
   } = useForm({
     mode: "onChange", // to get errors
     defaultValues: {
+      gender: user.gender,
       name: user.name,
       profession: user.profession,
       age: user.age
@@ -31,21 +32,33 @@ export default function EditUserForm({ user, onUpdateUser, setEdit }: IProps) {
   useEffect(() => reset({
     name: user.name,
     profession: user.profession,
-    age: user.age
+    age: user.age,
+    gender: user.gender
   }), [user])
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { name, profession, age } = getValues();
+    const { name, profession, age, gender } = getValues();
 
-    onUpdateUser(user.id, { id: user.id, name, profession, age });
+    onUpdateUser(user.id, { id: user.id, name, profession, age, gender });
   };
 
   return (
     <div className="user-form">
       <h1>edit users</h1>
       <form className="form-edit" onSubmit={onFormSubmit}>
+          <div className="form-row">
+            <label>
+              Select gender
+            </label>
+            <select {...register("gender", { required: true })} style={{ minWidth: "150px", minHeight: "28px" }}>
+              <option value="female">female</option>
+              <option value="male">male</option>
+              <option value="other">other</option>
+            </select>
+            {errors.gender && <p style={{color:'red'}}> {errors.gender.message}</p> }
+        </div>
         <div className="form-row">
           <label>Name</label>
           <input

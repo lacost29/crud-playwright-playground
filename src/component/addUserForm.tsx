@@ -16,9 +16,15 @@ const AddUserForm: React.FunctionComponent<IProps> = ({ onAddUser }) => {
     watch,
     formState: { isValid, errors },
     setValue
-  } = useForm({
+  } = useForm<{
+    gender: "female" | "male" | "other";
+    name: string;
+    profession: string;
+    age: Date;
+  }>({
     mode: "onChange", // to get errors
     defaultValues: {
+      gender: "female",
       name: "",
       profession: "",
       age: new Date()
@@ -29,10 +35,11 @@ const AddUserForm: React.FunctionComponent<IProps> = ({ onAddUser }) => {
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, profession, age } = getValues();
+    const { name, profession, age, gender } = getValues();
 
-    onAddUser({ name, profession, age })
+    onAddUser({ name, profession, age, gender })
     reset({
+      gender: "female",
       name: "",
       profession: "",
       age: new Date()
@@ -43,6 +50,17 @@ const AddUserForm: React.FunctionComponent<IProps> = ({ onAddUser }) => {
     <div className="user-form">
       <h1>Add users</h1>
       <form className="form-edit" onSubmit={onFormSubmit}>
+        <div className="form-row">
+          <label>
+            Select gender
+          </label>
+          <select {...register("gender", { required: true })} style={{ minWidth: "150px", minHeight: "28px" }}>
+            <option value="female">female</option>
+            <option value="male">male</option>
+            <option value="other">other</option>
+          </select>
+          {errors.gender && <p style={{color:'red'}}> {errors.gender.message}</p> }
+        </div>
         <div className="form-row">
           <label>Name</label>
           <input
